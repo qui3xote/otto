@@ -6,6 +6,6 @@
   "domain": "ottoscript",
   "iot_class": "local_push",
   "name": "OttoScript",
-  "requirements": ["pyparsing=3.0.7","watchdog==2.0.3"],
+  "requirements": ["pyparsing==3.0.7","watchdog==2.0.3"],
   "version": "0.5.0"
 }
