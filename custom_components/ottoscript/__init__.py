@@ -11,7 +11,7 @@ from voluptuous.schema_builder import PREVENT_EXTRA
 from .const import (
     DOMAIN,
     DOMAIN_DATA,
-    CONFIG_SCRIPT_DIR,
+    SCRIPT_DIR,
     PYSCRIPT_FOLDER,
     PYSCRIPT_APP_FOLDER,
     PYSCRIPT_OTTO_APP_FOLDER,
