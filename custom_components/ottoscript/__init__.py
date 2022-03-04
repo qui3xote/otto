@@ -13,7 +13,9 @@ from .const import (
     DOMAIN_DATA,
     CONFIG_SCRIPT_DIR,
     PYSCRIPT_FOLDER,
-    PYSCRIPT_APP_FOLDER
+    PYSCRIPT_APP_FOLDER,
+    PYSCRIPT_OTTO_APP_FOLDER,
+    OTTO_PYSCRIPT_FOLDER
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -42,16 +44,28 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
     pyscript_folder = hass.config.path(PYSCRIPT_FOLDER)
     if not await hass.async_add_executor_job(os.path.isdir, pyscript_folder):
         _LOGGER.error(
-            "Pyscript Folder %s not found. Install pyscript.", pyscript_folder)
+            f"Pyscript Folder {pyscript_folder} not found. Install pyscript.")
         return False
 
-    app_folder = hass.config.pyscript_folder(PYSCRIPT_APP_FOLDER)
+    app_folder = hass.config.path(PYSCRIPT_APP_FOLDER)
     if not await hass.async_add_executor_job(os.path.isdir, app_folder):
         _LOGGER.debug(
-            "Pyscript App Folder %s not found. Creating it.", app_folder)
-            await hass.async_add_executor_job(os.makedirs, app_folder)
+            f"Pyscript {app_folder} not found. Creating it.")
+        await hass.async_add_executor_job(os.makedirs, app_folder)
 
-        return True
+    script_dir = hass.config.path(SCRIPT_DIR)
+    if not await hass.async_add_executor_job(os.path.isdir, script_dir):
+        _LOGGER.debug(
+            f"Pyscript {script_dir} not found. Creating it.")
+        await hass.async_add_executor_job(os.makedirs, script_dir)
+
+    pyscript_otto_app_folder = hass.config.path(PYSCRIPT_OTTO_APP_FOLDER)
+    if not await hass.async_add_executor_job(os.path.isdir, pyscript_otto_app_folder):
+        _LOGGER.debug(
+            f"Pyscript App Folder {pyscript_otto_app_folder} not found. Linking.")
+        await hass.async_add_executor_job(os.symlink, pyscript_otto_app_folder, OTTO_PYSCRIPT_FOLDER)
+
+    return True
 
 
 async def async_setup_entry(hass, config_entry, async_add_devices):
