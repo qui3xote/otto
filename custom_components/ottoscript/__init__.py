@@ -20,11 +20,11 @@ from .const import (
 
 _LOGGER = logging.getLogger(__name__)
 
-config_schema = vol.Schema(
-    {
-        vol.Optional(CONFIG_SCRIPT_DIR, default='/config/ottoscripts/'): str
-    }
-)
+# config_schema = vol.Schema(
+#     {
+#         vol.Optional(SCRIPT_DIR, default='/config/ottoscripts/'): str
+#     }
+# )
 
 
 async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
