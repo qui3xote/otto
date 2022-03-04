@@ -63,7 +63,7 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
     if not await hass.async_add_executor_job(os.path.isdir, pyscript_otto_app_folder):
         _LOGGER.debug(
             f"Pyscript App Folder {pyscript_otto_app_folder} not found. Linking.")
-        await hass.async_add_executor_job(os.symlink, pyscript_otto_app_folder, OTTO_PYSCRIPT_FOLDER)
+        await hass.async_add_executor_job(os.symlink, OTTO_PYSCRIPT_FOLDER, pyscript_otto_app_folder, target_is_directory=True)
 
     return True
 
