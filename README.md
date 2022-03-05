@@ -16,7 +16,7 @@ WHEN 20 MINUTES AFTER SUNSET
 ;
 ```
 
-That's the heart of an OttoScript automation: Give it a name (`my_sunset_routine`) and a trigger (`20 MINUTES AFTER SUNSET`) and then commands you want run (`DIM`, `OPEN`, etc.). Finish it off with a semi-colon and you're done! Line breaks, capitalization and capitalization are all purely optional - which means there aren't a lot of fussy syntax rules to worry about. But things can get much more powerful, while still being very easy to read and write. Here's an example for synchronizing two lights - something very hard to do in YAML or the GUI. 
+That's the heart of an OttoScript automation: Give it a name (`my_sunset_routine`) and a trigger (`20 MINUTES AFTER SUNSET`) and then commands you want run (`DIM`, `OPEN`, etc.). Finish it off with a semi-colon and you're done! Line breaks, capitalization and indentation are all purely optional - which means there aren't a lot of fussy syntax rules to worry about. But things can get much more powerful, while still being very easy to read and write. Here's an example for synchronizing two lights - something very hard to do in YAML or the GUI. 
 
 ```
 @denlight1 = light.den_main_lights_1
@@ -37,6 +37,8 @@ WHEN @denlight1, @denlight2, @denlight1:brightness, @denlight2:brightness CHANGE
   WAIT 1 SECONDS
 ;
 ```
+
+See **The Language ** section below for more.
 
 ## Installation
 NB: This is install guide assumes you are running HAOS. They should mostly work for other types of installations, but I haven't tested it. 
