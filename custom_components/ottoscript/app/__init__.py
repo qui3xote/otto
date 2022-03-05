@@ -1,36 +1,29 @@
 import sys
 import os
 import pathlib
-from ottopyscript.interpreter import Interpreter, Logger, Registrar
-sys.path.append("/config/ottoscript/")
-from ottoscript import Auto, OttoContext, OttoBase
+from .interpreter import Interpreter, Logger, Registrar
 
+sys.path.append(hass.config.path("custom_components/otto/"))
+from ottoparser import Auto, OttoContext, OttoBase
 
 
 class OttoBuilder:
-
     def __init__(self, config):
         if not self.parse_config(config):
-            log.error(f'INVALID CONFIG {config}')
+            log.error(f"INVALID CONFIG {config}")
             return
 
-        logger = Logger(
-            log_id='main',
-            task='builder',
-            debug_as_info=self.debug_as_info
-        )
+        logger = Logger(log_id="main", task="builder", debug_as_info=self.debug_as_info)
 
         registrar_log = Logger(
-            log_id='main',
-            task='registrar',
-            debug_as_info=self.debug_as_info
+            log_id="main", task="registrar", debug_as_info=self.debug_as_info
         )
         registrar = Registrar(registrar_log)
 
         for f in self._files:
-            stored_globals = {'area_shortcuts': self.area_shortcuts}
+            stored_globals = {"area_shortcuts": self.area_shortcuts}
 
-            logger.info(f'Reading {f}')
+            logger.info(f"Reading {f}")
             try:
                 file = task.executor(load_file, f)
                 namespace = f.split("/")[-1:][0]
@@ -43,8 +36,7 @@ class OttoBuilder:
 
             for script in scripts:
                 script_logger = Logger(
-                    log_id=namespace,
-                    debug_as_info=self.debug_as_info
+                    log_id=namespace, debug_as_info=self.debug_as_info
                 )
                 script_interpreter = Interpreter(script_logger)
                 ctx = OttoContext(script_interpreter, script_logger)
@@ -67,7 +59,7 @@ class OttoBuilder:
                 stored_globals = ctx.global_vars
 
     def parse_config(self, data):
-        path = data.get('directory')
+        path = data.get("directory")
         if path is None:
             log.error("Script directory is required")
             return False
@@ -75,7 +67,7 @@ class OttoBuilder:
             try:
                 self._files = task.executor(get_files, path)
             except Exception as error:
-                log.error(f'Unable to read files from {path}. Error: {error}')
+                log.error(f"Unable to read files from {path}. Error: {error}")
                 return False
 
         self.area_shortcuts = data.get("area_shortcuts")
@@ -88,6 +80,7 @@ class OttoBuilder:
             self.debug_as_info = False
 
         return True
+
 
 # Helpers
 
@@ -102,7 +95,7 @@ def get_files(path):
     files = []
     for f in os.listdir(path):
         if os.path.isfile(os.path.join(path, f)):
-            if pathlib.Path(f).suffix == '.otto':
+            if pathlib.Path(f).suffix == ".otto":
                 files.append(os.path.join(path, f))
     return files
 
@@ -115,7 +108,7 @@ def load_file(path):
     return contents
 
 
-@time_trigger('startup')
+@time_trigger("startup")
 def startup():
     for app in pyscript.app_config:
         OttoBuilder(app)

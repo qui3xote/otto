@@ -15,7 +15,7 @@ from .const import (
     PYSCRIPT_FOLDER,
     PYSCRIPT_APP_FOLDER,
     PYSCRIPT_OTTO_APP_FOLDER,
-    OTTO_PYSCRIPT_FOLDER
+    OTTO_PYSCRIPT_FOLDER,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -27,18 +27,12 @@ _LOGGER = logging.getLogger(__name__)
 # )
 
 
+def linkdir(target, name):
+    os.symlink(target, name, target_is_directory=True)
+
+
 async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
     """Set up the OttoScript component."""
-    # @TODO: Add setup code.
-    # Check for pyscript install - stop if not installed
-    # Read in configuration - script directory.
-    # Check if app is installed - if not, copy files.
-    # ^will need to check version installed. Or just reinstall
-    # every time.
-    # if pyscript running - reload.
-    # If pyscript not running... wait? Or just stop?
-    # Add script dir to watchdog. (borrow code form pyscript)
-    # if any otto files change, trigger pyscript reload.
 
     # Check for pyscript folder
     pyscript_folder = hass.config.path(PYSCRIPT_FOLDER)
@@ -49,21 +43,28 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
 
     app_folder = hass.config.path(PYSCRIPT_APP_FOLDER)
     if not await hass.async_add_executor_job(os.path.isdir, app_folder):
-        _LOGGER.debug(
-            f"Pyscript {app_folder} not found. Creating it.")
+        _LOGGER.debug(f"Pyscript {app_folder} not found. Creating it.")
         await hass.async_add_executor_job(os.makedirs, app_folder)
 
     script_dir = hass.config.path(SCRIPT_DIR)
     if not await hass.async_add_executor_job(os.path.isdir, script_dir):
-        _LOGGER.debug(
-            f"Pyscript {script_dir} not found. Creating it.")
+        _LOGGER.debug(f"Pyscript {script_dir} not found. Creating it.")
         await hass.async_add_executor_job(os.makedirs, script_dir)
 
-    pyscript_otto_app_folder = hass.config.path(PYSCRIPT_OTTO_APP_FOLDER)
-    if not await hass.async_add_executor_job(os.path.isdir, pyscript_otto_app_folder):
+    pyscript_otto_folder = hass.config.path(PYSCRIPT_OTTO_APP_FOLDER)
+    otto_pyscript_folder = hass.config.path(OTTO_PYSCRIPT_FOLDER)
+    if not await hass.async_add_executor_job(
+        os.path.islink,
+        pyscript_otto_app_folder
+    ):
         _LOGGER.debug(
-            f"Pyscript App Folder {pyscript_otto_app_folder} not found. Linking.")
-        await hass.async_add_executor_job(os.symlink, OTTO_PYSCRIPT_FOLDER, pyscript_otto_app_folder, target_is_directory=True)
+            f"Pyscript App Folder {pyscript_otto_folder} not found. Linking."
+        )
+        await hass.async_add_executor_job(
+            linkdir,
+            otto_pyscript_folder,
+            pyscript_otto_app_folder,
+        )
 
     return True
 

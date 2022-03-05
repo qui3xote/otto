@@ -5,7 +5,7 @@ from pyparsing import (
     Group,
     Or
 )
-from .ottobase import OttoBase
+from .base import OttoBase
 from .keywords import (
     FROM,
     TO,

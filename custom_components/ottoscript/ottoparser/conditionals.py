@@ -8,7 +8,7 @@ from pyparsing import (
     MatchFirst
 )
 from .datatypes import String, Number, Var, Entity, Input
-from .ottobase import OttoBase
+from .base import OttoBase
 from .keywords import (
     IF,
     AND,
