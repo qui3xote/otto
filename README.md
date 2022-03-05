@@ -1,10 +1,41 @@
 # OttoScript
 
-## What is OttoScript?
+## What is Otto?
 `OttoScript` is a toolkit for parsing OttoScript files (*.otto) into python objects which can then be used to run home automations. 
 
-## Installing ottoscript
-Installation is simply a matter of checking out the code from github. (For instructions on how to install this on HomeAssistant, see [ottopyscript](https://github.com/qui3xote/ottopyscript))
+
+## Installation
+NB: This is install guide assumes you are running HAOS. They should mostly work for other types of installations, but I haven't tested it. 
+1. [Install Pyscript](https://github.com/custom-components/pyscript) by either HACS (preferred) or manual method. **Be sure to set `allow_all_imports: true` and `hass_is_global: true` in your pyscript configuration.** 
+2. Restart home assistant.
+3. Add this repository to HACS as a [custom_repository](https://hacs.xyz/docs/faq/custom_repositories) and install it. 
+4. Add two lines to your configuartion.yaml file: 
+```
+otto:
+
+pyscript: !include pyscript/config.yaml
+``` 
+5. Update your pyscript configuration file (`config/pyscript/config.yaml` - you may need to create this file). The minimum configuration needed is for the file to look like this: 
+```
+apps:
+  otto:
+  - directory: /config/ottoscripts
+  ```
+ 6. Restart home assistant.
+
+
+## Configuration
+Otto is configured within pyscript's apps section (see above). See [config.yaml.sample](https://github.com/qui3xote/otto/blob/main/custom_components/ottoscript/app/config.yaml.sample) for example usage.
+
+Options:
+
+| Option         |Description                    |Default value                |
+|----------------|-------------------------------|-----------------------------|
+|`directory`|The location where ottoscript files (`.otto`) are stored . |`empty (none)` |
+|`verbose`|Can be `0` or `1`. `1` will add a lot debugging information to the home assistant logs. |`0`|
+|`area_groups`|Dictionary of area_groups, each containing a list of areas or area_groups. area_group names must be lowecase, and can only contain letters, numbers and `_`. Areas must be valid homeassistant areas. |`empty` (None) |
+
+
 
 # The Language
 Ottoscript is inspired by SQL - it aims to provide an intuitive and human-readable language for creating automations with minimal syntax. Whitespace, line breaks, indentations and capitalization are all ignored (but are recommended for readability). At the same time, OttoScript supports programming concepts (like variables) that make the language flexible and more capable than YAML. Here's an example, in a file called workroutine.otto:
