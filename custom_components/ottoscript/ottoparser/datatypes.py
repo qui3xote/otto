@@ -200,15 +200,15 @@ class Target(OttoBase):
         return {'entity_id': entities, 'area_id': areas}
 
     def expand_areas(self, name):
-        area_shortcuts = self.ctx.get_var('area_shortcuts')
-        if area_shortcuts is None:
+        area_groups = self.ctx.get_var('area_groups')
+        if area_groups is None:
             return [name]
 
-        if name not in area_shortcuts.keys():
+        if name not in area_groups.keys():
             return [name]
 
         areas = []
-        for new in area_shortcuts[name]:
+        for new in area_groups[name]:
             areas.extend(self.expand_areas(new))
 
         return areas

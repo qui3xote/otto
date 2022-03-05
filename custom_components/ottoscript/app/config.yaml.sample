@@ -1,7 +1,7 @@
 ottopyscript:
   - directory: /config/ottoscripts/
     verbose: 0 # setting this to 1 will send more data to the logs for debugging
-    area_shortcuts: # each key is treated like an area and expanded to include all the areas below it.
+    area_groups: # each key is treated like an area and expanded to include all the areas below it.
       basement:
         - media_room
         - basement_game_area

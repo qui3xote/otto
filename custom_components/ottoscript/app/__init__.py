@@ -21,7 +21,7 @@ class OttoBuilder:
         registrar = Registrar(registrar_log)
 
         for f in self._files:
-            stored_globals = {"area_shortcuts": self.area_shortcuts}
+            stored_globals = {"area_groups": self.area_groups}
 
             logger.info(f"Reading {f}")
             try:
@@ -70,9 +70,9 @@ class OttoBuilder:
                 log.error(f"Unable to read files from {path}. Error: {error}")
                 return False
 
-        self.area_shortcuts = data.get("area_shortcuts")
-        if self.area_shortcuts is None:
-            self.area_shortcuts = {}
+        self.area_groups = data.get("area_groups")
+        if self.area_groups is None:
+            self.area_groups = {}
 
         if data.get("verbose") == 1:
             self.debug_as_info = True
