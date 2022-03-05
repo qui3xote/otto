@@ -4,9 +4,9 @@ DOMAIN_DATA = f"{DOMAIN}_data"
 
 PYSCRIPT_FOLDER = "pyscript"
 PYSCRIPT_APP_FOLDER = PYSCRIPT_FOLDER + '/apps'
-OTTO_PYSCRIPT_FOLDER = PYSCRIPT_APP_FOLDER + '/otto'
+PYSCRIPT_OTTO_FOLDER = PYSCRIPT_APP_FOLDER + '/otto'
 
-OTTO_PYSCRIPT_FOLDER = "custom_components/ottoscript/otto_app"
+OTTO_PYSCRIPT_FOLDER = "custom_components/ottoscript/app"
 
 # Otto Config Options
 SCRIPT_DIR = "ottoscripts"
