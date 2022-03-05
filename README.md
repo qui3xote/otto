@@ -1,8 +1,42 @@
-# OttoScript
+# Otto - Automation for Humans
 
 ## What is Otto?
-`OttoScript` is a toolkit for parsing OttoScript files (*.otto) into python objects which can then be used to run home automations. 
+Otto is a toolkit for writing HomeAssistant automation. It aims to make automating your home simple and intuitive while also providing flexibility and power. 
 
+## Why another way to automate? 
+HomeAssistant has multiple ways to automate already - the web interface, YAML,  NodeRed, PyScript and AppDaemon being the most popular options. I've used all of them at various points, and each of them has strengths and weaknesses. PyScript and AppDaemon will let you do just about anything you can dream of - if you have the time and desire to learn python. NodeRed is fantastic for visual thinkers (and darn it, it's really _cool_) but also has a significant learning curve. The GUI is **great** for simple automations, but gets cumbersome for as your automations get more involved, and at a certain point there are just things you can't do without templates, and now you're back to having to learn python (and a lot about HA's internals). YAML ends up with most of the same pros & cons as the GUI.
+
+Otto aims to be easy to learn while also providing the power and flexibility to handle all but the most complex automations by creating a custom scripting language called OttoScript. Here's a simple example for a sunset routine:
+
+```
+AUTO my_sunset_routine
+WHEN 20 MINUTES AFTER SUNSET
+  DIM AREA first_floor TO 50%
+  OPEN cover.livingroom_window TO 80%
+;
+```
+
+That's the heart of an OttoScript automation: Give it a name (`my_sunset_routine`) and a trigger (`20 MINUTES AFTER SUNSET`) and then commands you want run (`DIM`, `OPEN`, etc.). Finish it off with a semi-colon and you're done! Line breaks, capitalization and capitalization are all purely optional - which means there aren't a lot of fussy syntax rules to worry about. But things can get much more powerful, while still being very easy to read and write. Here's an example for synchronizing two lights - something very hard to do in YAML or the GUI. 
+
+```
+@denlight1 = light.den_main_lights_1
+@denlight2 = light.den_main_lights_2
+
+AUTO bind_den_lights @trigger
+WHEN @denlight1, @denlight2, @denlight1:brightness, @denlight2:brightness CHANGES FOR 0.1 SECONDS
+  SWITCH
+    CASE @denlight1:brightness == @denlight2:brightness
+      PASS
+    CASE @trigger:value == 'off'
+      TURN OFF LIGHT @denlight1, @denlight2
+    CASE @trigger:var_name == @denlight1:name
+      DIM @denlight2 TO @denlight1:brightness
+    CASE @trigger:var_name == @denlight2:name
+      DIM @denlight1 TO @denlight2:brightness
+  END
+  WAIT 1 SECONDS
+;
+```
 
 ## Installation
 NB: This is install guide assumes you are running HAOS. They should mostly work for other types of installations, but I haven't tested it. 
