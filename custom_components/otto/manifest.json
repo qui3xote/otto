@@ -6,6 +6,6 @@
   "domain": "otto",
   "iot_class": "local_push",
   "name": "Otto",
-  "requirements": ["pyparsing==3.0.7","watchdog==2.0.3", "httplib2>=0.20.4"],
+  "requirements": ["pyparsing==p3.0.7", "httplib2==0.20.4"],
   "version": "0.5.0"
 }
