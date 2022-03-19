@@ -6,7 +6,7 @@ from pyparsing import (CaselessKeyword,
                        Char,
                        nums,
                        Optional,
-                       common)
+                       pyparsing_common)
 from .base import OttoBase
 from .keywords import HOUR, MINUTE, SECOND
 from .datatypes import Number,  Var
@@ -118,7 +118,7 @@ class RelativeTime(TimePart):
 
 
 class Date(TimePart):
-    date = common.iso8601_date
+    date = pyparsing_common.iso8601_date
     parser = Group(date("string"))
 
 

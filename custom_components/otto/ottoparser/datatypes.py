@@ -3,25 +3,25 @@ from pyparsing import (
     QuotedString,
     Suppress,
     Word,
-    delimited_list,
+    delimitedList,
     Literal,
     Optional,
-    dict_of,
+    dictOf,
     alphas,
     alphanums,
-    common
+    pyparsing_common
 )
 from .keywords import reserved_words, AREA
 from .base import OttoBase
 
-ident = ~reserved_words + common.identifier
+ident = ~reserved_words + pyparsing_common.identifier
 ident = ident.setParseAction(lambda x: x[0])
 
 
 class Var(OttoBase):
     parser = Group(
         Word("@", alphanums + '_')("name")
-        + Optional(":" + common.identifier("attribute"))
+        + Optional(":" + pyparsing_common.identifier("attribute"))
     )
 
     def __str__(self):
@@ -63,14 +63,14 @@ class String(OttoBase):
 
 
 class Number(OttoBase):
-    parser = Group(common.number("_value"))
+    parser = Group(pyparsing_common.number("_value"))
 
 
 class Entity(OttoBase):
     parser = Group(ident("domain")
                    + Literal(".")
                    + ident("id")
-                   + Optional(":" + common.identifier("_attribute"))
+                   + Optional(":" + pyparsing_common.identifier("_attribute"))
                    )
 
     def __str__(self):
@@ -136,7 +136,7 @@ class List(OttoBase):
             content_parser = Var() ^ content_parser
 
         parser = Group(Optional("(")
-                       + delimited_list(content_parser)("contents")
+                       + delimitedList(content_parser)("contents")
                        + Optional(")")
                        )
         parser.set_name(cls.__name__)
@@ -151,7 +151,7 @@ class Dict(OttoBase):
                       )
     _attr_label = Word(alphas + '_', alphanums + '_')
     _attrvalue = Suppress("=") + _allowedvalues + Optional(Suppress(","))
-    _dict = dict_of(_attr_label, _attrvalue)
+    _dict = dictOf(_attr_label, _attrvalue)
     parser = Group(Literal("(")
                    + _dict("contents")
                    + Literal(")")
