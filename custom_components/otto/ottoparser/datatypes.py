@@ -9,19 +9,19 @@ from pyparsing import (
     dictOf,
     alphas,
     alphanums,
-    common
+    pyparsing_common
 )
 from .keywords import reserved_words, AREA
 from .base import OttoBase
 
-ident = ~reserved_words + common.identifier
+ident = ~reserved_words + pyparsing_common.identifier
 ident = ident.set_parse_action(lambda x: x[0])
 
 
 class Var(OttoBase):
     parser = Group(
         Word("@", alphanums + '_')("name")
-        + Optional(":" + common.identifier("attribute"))
+        + Optional(":" + pyparsing_common.identifier("attribute"))
     )
 
     def __str__(self):
@@ -63,14 +63,14 @@ class String(OttoBase):
 
 
 class Number(OttoBase):
-    parser = Group(common.number("_value"))
+    parser = Group(pyparsing_common.number("_value"))
 
 
 class Entity(OttoBase):
     parser = Group(ident("domain")
                    + Literal(".")
                    + ident("id")
-                   + Optional(":" + common.identifier("_attribute"))
+                   + Optional(":" + pyparsing_common.identifier("_attribute"))
                    )
 
     def __str__(self):
