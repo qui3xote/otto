@@ -50,7 +50,7 @@ class TimePart(OttoBase):
 
     @classmethod
     def pre_parse(cls, *args, **kwargs):
-        cls.parser.set_name(cls.__name__)
+        cls.parser.setName(cls.__name__)
         parser = MatchFirst(cls.parser, Var())
         parser = parser.setParseAction(lambda x: cls(x, *args, **kwargs))
         return parser

@@ -139,7 +139,7 @@ class List(OttoBase):
                        + delimitedList(content_parser)("contents")
                        + Optional(")")
                        )
-        parser.set_name(cls.__name__)
+        parser.setName(cls.__name__)
         return parser.setParseAction(lambda x: cls(x, *args, **kwargs))
 
 
@@ -256,6 +256,6 @@ class Input(OttoBase):
                            | Var()("input")
                            )
 
-        parser.set_name(cls.__name__)
+        parser.setName(cls.__name__)
         parser.setParseAction(lambda x: cls(x, result_type, *args, **kwargs))
         return parser
