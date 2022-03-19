@@ -56,8 +56,8 @@ class Var(OttoBase):
 
 
 class String(OttoBase):
-    parser = Group(QuotedString(quote_char="'", unquoteResults=True)("_value")
-                   | QuotedString(quote_char='"',
+    parser = Group(QuotedString(quoteChar="'", unquoteResults=True)("_value")
+                   | QuotedString(quoteChar='"',
                                   unquoteResults=True)("_value")
                    )
 
