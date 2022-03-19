@@ -3,10 +3,10 @@ from pyparsing import (
     QuotedString,
     Suppress,
     Word,
-    delimited_list,
+    delimitedList,
     Literal,
     Optional,
-    dict_of,
+    dictOf,
     alphas,
     alphanums,
     common
@@ -136,7 +136,7 @@ class List(OttoBase):
             content_parser = Var() ^ content_parser
 
         parser = Group(Optional("(")
-                       + delimited_list(content_parser)("contents")
+                       + delimitedList(content_parser)("contents")
                        + Optional(")")
                        )
         parser.set_name(cls.__name__)
@@ -151,7 +151,7 @@ class Dict(OttoBase):
                       )
     _attr_label = Word(alphas + '_', alphanums + '_')
     _attrvalue = Suppress("=") + _allowedvalues + Optional(Suppress(","))
-    _dict = dict_of(_attr_label, _attrvalue)
+    _dict = dictOf(_attr_label, _attrvalue)
     parser = Group(Literal("(")
                    + _dict("contents")
                    + Literal(")")
