@@ -15,7 +15,7 @@ from .keywords import reserved_words, AREA
 from .base import OttoBase
 
 ident = ~reserved_words + common.identifier
-ident = ident.set_parse_action(lambda x: x[0])
+ident = ident.setParseAction(lambda x: x[0])
 
 
 class Var(OttoBase):
@@ -140,7 +140,7 @@ class List(OttoBase):
                        + Optional(")")
                        )
         parser.set_name(cls.__name__)
-        return parser.set_parse_action(lambda x: cls(x, *args, **kwargs))
+        return parser.setParseAction(lambda x: cls(x, *args, **kwargs))
 
 
 class Dict(OttoBase):
@@ -257,5 +257,5 @@ class Input(OttoBase):
                            )
 
         parser.set_name(cls.__name__)
-        parser.set_parse_action(lambda x: cls(x, result_type, *args, **kwargs))
+        parser.setParseAction(lambda x: cls(x, result_type, *args, **kwargs))
         return parser
