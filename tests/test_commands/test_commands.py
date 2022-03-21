@@ -24,7 +24,7 @@ OttoBase.set_context()
 async def test_assign_local_vars():
     """Verify we correctly assign vars"""
 
-    n = Assignment().parse_string("@foo = 'foostring'")[0]
+    n = Assignment().parseString("@foo = 'foostring'")[0]
     await n.eval()
     assert type(n.ctx.get_var('@foo')) == String
     assert n.ctx.get_var('@foo')._value == 'foostring'
@@ -37,7 +37,7 @@ async def test_assign_global_vars():
     """Verify we correctly assign global vars"""
 
     OttoBase.set_context()
-    n = Assignment("global").parse_string("@foo = 'foostring'")[0]
+    n = Assignment("global").parseString("@foo = 'foostring'")[0]
 
     await n.eval()
     assert type(n.ctx.get_var('@foo')) == String
@@ -49,14 +49,14 @@ async def test_assign_global_vars():
 @pytest.mark.asyncio
 async def test_pass():
 
-    n = Pass().parse_string('pass')[0]
+    n = Pass().parseString('pass')[0]
     assert await n.eval() is None
 
 
 @pytest.mark.asyncio
 async def test_set():
 
-    n = Set().parse_string('set ship.crew to 15')[0]
+    n = Set().parseString('set ship.crew to 15')[0]
     expected = [{'entity_name': 'ship.crew',
                  'value': 15,
                  'new_attributes': None,
@@ -68,7 +68,7 @@ async def test_set():
 @pytest.mark.asyncio
 async def test_turn():
 
-    n = Turn().parse_string("turn off light light.cupola_lights")[0]
+    n = Turn().parseString("turn off light light.cupola_lights")[0]
     expected = {'domain': 'light',
                 'service_name': 'turn_off',
                 'kwargs': {'entity_id': ['light.cupola_lights'],
@@ -80,7 +80,7 @@ async def test_turn():
 @pytest.mark.asyncio
 async def test_toggle():
 
-    n = Toggle().parse_string("toggle light AREA cupola")[0]
+    n = Toggle().parseString("toggle light AREA cupola")[0]
     expected = {'domain': 'light',
                 'service_name': 'toggle',
                 'kwargs': {'entity_id': [],
@@ -92,28 +92,28 @@ async def test_toggle():
 @pytest.mark.asyncio
 async def test_dim():
 
-    n1 = Dim().parse_string("dim AREA cupola to 100")[0]
+    n1 = Dim().parseString("dim AREA cupola to 100")[0]
     expected1 = {'domain': 'light',
                  'service_name': 'turn_on',
                  'kwargs': {'entity_id': [],
                             'area_id': ['cupola'],
                             'brightness': 100}}
 
-    n2 = Dim().parse_string("dim AREA cupola to 50%")[0]
+    n2 = Dim().parseString("dim AREA cupola to 50%")[0]
     expected2 = {'domain': 'light',
                  'service_name': 'turn_on',
                  'kwargs': {'entity_id': [],
                             'area_id': ['cupola'],
                             'brightness_pct': 50}}
 
-    n3 = Dim().parse_string("dim AREA cupola BY 50%")[0]
+    n3 = Dim().parseString("dim AREA cupola BY 50%")[0]
     expected3 = {'domain': 'light',
                  'service_name': 'turn_on',
                  'kwargs': {'entity_id': [],
                             'area_id': ['cupola'],
                             'brightness_step_pct': 50}}
 
-    n4 = Dim().parse_string("dim AREA cupola BY 50")[0]
+    n4 = Dim().parseString("dim AREA cupola BY 50")[0]
     expected4 = {'domain': 'light',
                  'service_name': 'turn_on',
                  'kwargs': {'entity_id': [],
@@ -129,7 +129,7 @@ async def test_dim():
 @pytest.mark.asyncio
 async def test_lock():
 
-    n = Lock().parse_string("lock lock.front_door with (code=5555)")[0]
+    n = Lock().parseString("lock lock.front_door with (code=5555)")[0]
     expected = {'domain': 'lock',
                 'service_name': 'lock',
                 'kwargs': {'entity_id': ['lock.front_door'],
@@ -144,7 +144,7 @@ async def test_lock():
 @pytest.mark.asyncio
 async def test_arm():
 
-    n = Arm().parse_string("ARM HOME alarm_control_panel.honeywell")[0]
+    n = Arm().parseString("ARM HOME alarm_control_panel.honeywell")[0]
     expected = {'domain': 'alarm_control_panel',
                 'service_name': 'alarm_arm_home',
                 'kwargs': {'entity_id': ['alarm_control_panel.honeywell'],
@@ -158,7 +158,7 @@ async def test_arm():
 @pytest.mark.asyncio
 async def test_disarm():
 
-    n = Disarm().parse_string("DISARM alarm_control_panel.honeywell")[0]
+    n = Disarm().parseString("DISARM alarm_control_panel.honeywell")[0]
     expected = {'domain': 'alarm_control_panel',
                 'service_name': 'alarm_disarm',
                 'kwargs': {'entity_id': ['alarm_control_panel.honeywell'],
@@ -172,7 +172,7 @@ async def test_disarm():
 @pytest.mark.asyncio
 async def test_openclose():
 
-    n1 = OpenClose().parse_string("OPEN AREA downstairs to 50")[0]
+    n1 = OpenClose().parseString("OPEN AREA downstairs to 50")[0]
     n1_expected = {'domain': 'cover',
                    'service_name': 'set_cover_position',
                    'kwargs': {'entity_id': [],
@@ -181,7 +181,7 @@ async def test_openclose():
                               }
                    }
 
-    n2 = OpenClose().parse_string("CLOSE cover.downstairs_window")[0]
+    n2 = OpenClose().parseString("CLOSE cover.downstairs_window")[0]
     n2_expected = {'domain': 'cover',
                    'service_name': 'set_cover_position',
                    'kwargs': {'entity_id': ['cover.downstairs_window'],
@@ -197,14 +197,14 @@ async def test_openclose():
 @pytest.mark.asyncio
 async def test_call():
 
-    n1 = Call().parse_string("CALL cloud.disconnect")[0]
+    n1 = Call().parseString("CALL cloud.disconnect")[0]
     n1_expected = {'domain': 'cloud',
                    'service_name': 'disconnect',
                    'kwargs': {}
                    }
 
     n2_string = "CALL cover.close_cover ON cover.downstairs_window"
-    n2 = Call().parse_string(n2_string)[0]
+    n2 = Call().parseString(n2_string)[0]
     n2_expected = {'domain': 'cover',
                    'service_name': 'close_cover',
                    'kwargs': {'entity_id': ['cover.downstairs_window'],
@@ -214,7 +214,7 @@ async def test_call():
 
     n3_string = """CALL light.turn_on ON
                      light.kitchen_light with (brightness=50)"""
-    n3 = Call().parse_string(n3_string)[0]
+    n3 = Call().parseString(n3_string)[0]
     n3_expected = {'domain': 'light',
                    'service_name': 'turn_on',
                    'kwargs': {'entity_id': ['light.kitchen_light'],
@@ -231,13 +231,13 @@ async def test_call():
 @pytest.mark.asyncio
 async def test_wait():
 
-    n1 = Wait().parse_string("WAIT 30 SECOND")[0]
+    n1 = Wait().parseString("WAIT 30 SECOND")[0]
     expected1 = 30
 
-    n2 = Wait().parse_string("WAIT 45 MINUTE")[0]
+    n2 = Wait().parseString("WAIT 45 MINUTE")[0]
     expected2 = 45 * 60
 
-    n3 = Wait().parse_string("WAIT 00:45")[0]
+    n3 = Wait().parseString("WAIT 00:45")[0]
     expected3 = 45 * 60
 
     assert await n1.eval() == expected1

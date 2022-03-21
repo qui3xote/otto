@@ -8,7 +8,7 @@ async def test_globalparser():
     """Verify we correctly parse globals"""
 
     OttoBase.set_context()
-    n = GlobalParser().parse_string("@foo = 'foostring'")[0]
+    n = GlobalParser().parseString("@foo = 'foostring'")[0]
 
     assert n.ctx.global_vars.get("@foo")._value == 'foostring'
     assert n.ctx.local_vars.get("@foo") is None

@@ -19,7 +19,7 @@ async def test_weekly_schedule():
                ]
 
     for s in strings:
-        n = WeeklySchedule().parse_string(s[0])[0]
+        n = WeeklySchedule().parseString(s[0])[0]
         result = n.strings
         assert Counter(result) == Counter(s[1])
 
@@ -36,7 +36,7 @@ async def test_sunevent():
                ]
 
     for s in strings:
-        n = SunEvent().parse_string(s[0])[0]
+        n = SunEvent().parseString(s[0])[0]
         result = n.strings
         assert Counter(result) == Counter(s[1])
 
@@ -81,6 +81,6 @@ async def test_statechange():
     ]
 
     for s in strings:
-        n = StateChange().parse_string(s[0])[0]
+        n = StateChange().parseString(s[0])[0]
         result = n.strings
         assert Counter(result) == Counter(s[1])

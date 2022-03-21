@@ -44,7 +44,7 @@ class OttoBuilder:
                 OttoBase.set_context(ctx)
 
                 try:
-                    auto = Auto().parse_string(script)[0]
+                    auto = Auto().parseString(script)[0]
                     auto.ctx.log.set_task(auto.controls.name)
                     logger.debug(f"Parsed {auto.controls.name}.")
                 except Exception as error:

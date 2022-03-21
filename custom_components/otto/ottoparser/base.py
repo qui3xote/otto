@@ -101,4 +101,4 @@ class OttoBase:
     @classmethod
     def from_string(cls, string, *args, **kwargs):
         parser = cls.__new__(cls, *args, **kwargs)
-        return parser.parse_string(string)[0]
+        return parser.parseString(string)[0]

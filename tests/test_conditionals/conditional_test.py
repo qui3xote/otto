@@ -27,14 +27,14 @@ async def test_comparison():
     ctx = OttoContext()
     ctx.update_vars(
         {
-            "@foo": String().parse_string("'bar'")[0]
+            "@foo": String().parseString("'bar'")[0]
         }
     )
 
     OttoBase.set_context(ctx)
 
     for s in strings:
-        n = Comparison().parse_string(s[0])[0]
+        n = Comparison().parseString(s[0])[0]
         assert await n.eval() == s[1]
 
 
@@ -72,7 +72,7 @@ async def test_then():
                 ]
 
     for n, s in enumerate(strings):
-        t = CommandBlock().parse_string(s)[0]
+        t = CommandBlock().parseString(s)[0]
         results = await t.eval()
         for num, result in enumerate(results):
             assert result == expected[n][num]
@@ -88,7 +88,7 @@ async def test_condition():
              ("'foobar' < 'foo'", False)]
 
     for t in tests:
-        n = Condition().parse_string(t[0])[0]
+        n = Condition().parseString(t[0])[0]
         assert await n.eval() == t[1]
 
 
@@ -110,7 +110,7 @@ async def test_ifthenelse():
              ]
 
     for t in tests:
-        n = IfThenElse().parse_string(t[0])[0]
+        n = IfThenElse().parseString(t[0])[0]
         x = await n.eval()
         if type(t[1]) == list:
             assert Counter(x) == Counter(t[1])
@@ -155,7 +155,7 @@ async def test_switch():
              ]
 
     for t in tests:
-        n = Switch().parse_string(t[0])[0]
+        n = Switch().parseString(t[0])[0]
         x = await n.eval()
         assert x == t[1]
 
@@ -197,6 +197,6 @@ async def test_switch_left():
              ]
 
     for n, t in enumerate(tests):
-        s = Switch().parse_string(t[0])[0]
+        s = Switch().parseString(t[0])[0]
         x = await s.eval()
         assert x == t[1]

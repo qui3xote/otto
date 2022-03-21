@@ -16,7 +16,7 @@ from ottoscript.datatypes import (Number,
 async def test_numeric():
     """Verify we correctly parse a number"""
 
-    n = Number().parse_string("15")[0]
+    n = Number().parseString("15")[0]
     output = await n.eval()
     assert output == 15
 
@@ -25,7 +25,7 @@ async def test_numeric():
 async def test_string():
     """Verify we correctly parse a string"""
 
-    n = String().parse_string("'foo'")[0]
+    n = String().parseString("'foo'")[0]
     output = await n.eval()
     assert output == 'foo'
 
@@ -34,7 +34,7 @@ async def test_string():
 async def test_var_no_fetch():
     """Verify we correctly parse a var"""
 
-    n = Var().parse_string("@foo")[0]
+    n = Var().parseString("@foo")[0]
     assert n.name == '@foo'
 
 
@@ -45,30 +45,30 @@ async def test_var_with_attributes():
     ctx = OttoContext()
     d_string = "(one=1, two=2)"
     e_string = "ship.crew"
-    ctx.update_vars({'@foo_entity': Entity().parse_string(e_string)[0]})
-    ctx.update_vars({'@foo_dict': Dict().parse_string(d_string)[0]})
+    ctx.update_vars({'@foo_entity': Entity().parseString(e_string)[0]})
+    ctx.update_vars({'@foo_dict': Dict().parseString(d_string)[0]})
     OttoBase.set_context(ctx)
 
-    n = Var().parse_string("@foo_entity:name")[0]
+    n = Var().parseString("@foo_entity:name")[0]
     r = await n.eval()
     assert r == "ship.crew"
 
-    n = Var().parse_string("@foo_entity:brightness")[0]
+    n = Var().parseString("@foo_entity:brightness")[0]
     r = await n.eval()
     assert r == 1
 
     r = n.fetch()
     assert r.name == "ship.crew.brightness"
 
-    n = Var().parse_string("@foo_entity:number")[0]
+    n = Var().parseString("@foo_entity:number")[0]
     r = await n.eval()
     assert r == 1
 
-    n = Var().parse_string("@foo_dict:one")[0]
+    n = Var().parseString("@foo_dict:one")[0]
     r = await n.eval()
     assert r == 1
 
-    n = Var().parse_string("@foo_dict:two")[0]
+    n = Var().parseString("@foo_dict:two")[0]
     r = await n.eval()
     assert r == 2
 
@@ -81,7 +81,7 @@ async def test_entity():
                  ]
 
     for test in test_list:
-        n = Entity().parse_string(test[0])[0]
+        n = Entity().parseString(test[0])[0]
         assert n.name == test[1]
         assert await n.eval() == test[2]
 
@@ -95,17 +95,17 @@ async def test_list():
     OttoBase.set_context(ctx)
 
     string = "'test1', 27, ship.crew, @foo"
-    expected = [String().parse_string('"test1"')[0],
-                Number().parse_string('27')[0],
-                Entity().parse_string('ship.crew')[0],
-                Var().parse_string('@foo')[0]]
+    expected = [String().parseString('"test1"')[0],
+                Number().parseString('27')[0],
+                Entity().parseString('ship.crew')[0],
+                Var().parseString('@foo')[0]]
 
-    n1 = List().parse_string(string)[0]
+    n1 = List().parseString(string)[0]
 
     assert Counter([type(x) for x in n1.contents]) \
         == Counter([type(x) for x in expected])
 
-    n2 = List().parse_string(f"({string})")[0]
+    n2 = List().parseString(f"({string})")[0]
     assert Counter([type(x) for x in n2.contents]) \
         == Counter([type(x) for x in expected])
 
@@ -117,7 +117,7 @@ async def test_list_single():
     string = "ship.crew"
     expected = list
 
-    n1 = List().parse_string(string)[0]
+    n1 = List().parseString(string)[0]
 
     assert type(n1.contents) == expected
 
@@ -136,7 +136,7 @@ async def test_dictionary():
                 "third": 'ship.crew',
                 "fourth": 'foostring'}
 
-    n1 = Dict().parse_string(string)[0]
+    n1 = Dict().parseString(string)[0]
 
     result = await n1.eval()
     assert result == expected
@@ -146,10 +146,10 @@ async def test_dictionary():
 async def test_target():
 
     ctx = OttoContext()
-    area = Area().parse_string('kitchen')[0]
+    area = Area().parseString('kitchen')[0]
     ctx.update_vars({'@area': area})
 
-    arealist = List(Area()).parse_string('kitchen, living_room')[0]
+    arealist = List(Area()).parseString('kitchen, living_room')[0]
     ctx.update_vars({'@arealist': arealist})
 
     OttoBase.set_context(ctx)
@@ -172,7 +172,7 @@ async def test_target():
              ]
 
     for test in tests:
-        n = Target().parse_string(test[0])[0]
+        n = Target().parseString(test[0])[0]
         result = await n.eval()
         assert result == test[1]
 
@@ -181,8 +181,8 @@ async def test_target():
 async def test_input():
 
     ctx = OttoContext()
-    ctx.update_vars({'@foostring': String().parse_string("'foostring'")[0],
-                     '@foonumber': Number().parse_string("30.0")[0]})
+    ctx.update_vars({'@foostring': String().parseString("'foostring'")[0],
+                     '@foonumber': Number().parseString("30.0")[0]})
 
     OttoBase.set_context(ctx)
 
@@ -234,7 +234,7 @@ async def test_input():
              ]
 
     for test in tests:
-        n = Input(test["type"]).parse_string(test["string"])[0]
+        n = Input(test["type"]).parseString(test["string"])[0]
         print(test["string"])
         result = await n.eval()
         assert result == test["expected"]

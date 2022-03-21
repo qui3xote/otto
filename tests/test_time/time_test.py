@@ -9,8 +9,8 @@ interpreter = Interpreter()
 async def test_timestamp():
     """Verify we correctly assign vars"""
 
-    n1 = TimeStamp().parse_string("07:00")[0]
-    n2 = TimeStamp().parse_string("07:15:30")[0]
+    n1 = TimeStamp().parseString("07:00")[0]
+    n2 = TimeStamp().parseString("07:15:30")[0]
 
     assert n1.string == "07:00:00"
     assert n1.seconds == 7 * 60 * 60
@@ -23,9 +23,9 @@ async def test_timestamp():
 async def test_relativetime():
     """Verify we correctly assign vars"""
 
-    n1 = RelativeTime().parse_string("30 Seconds")[0]
-    n2 = RelativeTime().parse_string("30 MINUTES")[0]
-    n3 = RelativeTime().parse_string("30 HOURS")[0]
+    n1 = RelativeTime().parseString("30 Seconds")[0]
+    n2 = RelativeTime().parseString("30 MINUTES")[0]
+    n3 = RelativeTime().parseString("30 HOURS")[0]
 
     assert n1.string == "30 SECONDS"
     assert n1.seconds == 30
@@ -41,7 +41,7 @@ async def test_relativetime():
 async def test_date():
     """Verify we correctly assign dates"""
 
-    n1 = Date().parse_string("2021-06-06")[0]
+    n1 = Date().parseString("2021-06-06")[0]
 
     assert n1.string == "2021-06-06"
 
@@ -50,6 +50,6 @@ async def test_date():
 async def test_datetime():
     """Verify we correctly assign datetimes"""
 
-    n1 = DateTime().parse_string("2021-06-06 07:30:15")[0]
+    n1 = DateTime().parseString("2021-06-06 07:30:15")[0]
 
     assert n1.string == "2021-06-06 07:30:15"
