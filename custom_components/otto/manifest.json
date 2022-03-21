@@ -2,7 +2,7 @@
   "codeowners": ["@qui3xote"],
   "config_flow": true,
   "dependencies": ["pyscript"],
-  "after_dependencies": ["google"]
+  "after_dependencies": ["google"],
   "documentation": "https://github.com/qui3xote/otto/",
   "domain": "otto",
   "iot_class": "local_push",
