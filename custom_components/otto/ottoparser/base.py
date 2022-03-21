@@ -82,11 +82,10 @@ class OttoBase:
 
     @classmethod
     def pre_parse(cls, *args, **kwargs):
-        cls.parser.set_name(cls.__name__)
         cls.parser.setName(cls.__name__)
         prs = cls.parser.copy()
-        return prs.setParseAction(lambda x:
-                                    cls.post_parse(x, *args, **kwargs))
+        return prs.setParseAction(
+            lambda x: cls.post_parse(x, *args, **kwargs))
 
     @classmethod
     def post_parse(cls, tokens, *args, **kwargs):

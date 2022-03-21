@@ -1,11 +1,11 @@
 {
   "codeowners": ["@qui3xote"],
   "config_flow": true,
-  "dependencies": [],
+  "dependencies": ["pyscript"],
   "documentation": "https://github.com/qui3xote/otto/",
   "domain": "otto",
   "iot_class": "local_push",
   "name": "Otto",
-  "requirements": ["pyparsing==3.0.7"],
-  "version": "0.5.1"
+  "requirements": ["pyparsing==3.0.7","httplib2==0.20.4"],
+  "version": "0.5.2"
 }
