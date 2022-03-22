@@ -1,5 +1,4 @@
 import os
-import touch
 import logging
 
 from homeassistant.core import HomeAssistant
@@ -71,9 +70,12 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
 
     pyscript_config = hass.config.path(PYSCRIPT_FOLDER + "/config.yaml")
     if await hass.async_add_executor_job(os.path.isfile, pyscript_config):
-        await hass.async_add_executor_job(touch.touch, pyscript_config)
+        await hass.async_add_executor_job(os.utime, pyscript_config)
     else:
-        _LOGGER.debug(f"Pyscript config not found at {pyscript_config}.")
+        _LOGGER.debug(
+            f"Pyscript config not found at {pyscript_config}."
+            "Manually reload pyscript to ensure proper libraries are loaded."
+        )
 
 
 async def async_setup_entry(hass, config_entry, async_add_devices):

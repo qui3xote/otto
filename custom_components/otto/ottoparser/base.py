@@ -52,7 +52,7 @@ class OttoBase:
         self.tokens = tokens[0]
 
         try:
-            for k, v in self.tokens.as_dict().items():
+            for k, v in self.tokens.asDict().items():
                 setattr(self, k, v)
         except Exception as error:
             print(f"Failed to init {type(self)}")
