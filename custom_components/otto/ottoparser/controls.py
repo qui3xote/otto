@@ -64,8 +64,9 @@ class GlobalParser(OttoBase):
 
     def __init__(self, tokens):
         super().__init__(tokens)
-        for a in self.assignments:
-            a.exec()
+        if hasattr(self, "assignments"):
+            for a in self.assignments:
+                a.exec()
 
 
 class Triggers(OttoBase):
