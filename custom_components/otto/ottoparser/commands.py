@@ -176,6 +176,9 @@ class Dim(Command):
         + (CaselessKeyword("TO") | CaselessKeyword("BY"))("type")
         + Input("numeric")("number")
         + Optional('%')("use_pct")
+        + Optional(
+            With()("with_data")
+        )
     )
 
     @property

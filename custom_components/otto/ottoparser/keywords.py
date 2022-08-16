@@ -26,6 +26,7 @@ TO = CaselessKeyword('TO')
 ON = CaselessKeyword('ON')
 OFF = CaselessKeyword('OFF')
 DEFAULT = CaselessKeyword('DEFAULT')
+IN = CaselessKeyword('IN')
 
 # Time
 HOUR = MatchFirst(map(CaselessKeyword, ["HOUR", "HOURS"]))
