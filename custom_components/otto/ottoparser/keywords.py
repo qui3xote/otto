@@ -51,5 +51,5 @@ OPERATORS = {
     '>=': op.ge,
     '!=': op.ne,
     '<': op.lt,
-    '>': op.gt,
+    '>': op.gt
 }
