@@ -52,5 +52,4 @@ OPERATORS = {
     '!=': op.ne,
     '<': op.lt,
     '>': op.gt,
-    IN: op.contains
 }
